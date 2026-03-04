@@ -9,8 +9,8 @@ struct BiList {
 
 template< class T >
 BiList<T>* push_front(BiList<T>* head, const T& value) {
-  BiList<T>* new_node = new BiList<T>;
-  new_node->val = value;
+  BiList<T>* new_node = new BiList<T>;  // T::T()
+  new_node->val = value;  // T& operator=(const T&)
 
   if (head == nullptr) {
     new_node->next = new_node;
@@ -30,8 +30,8 @@ template< class T >
 BiList<T>* insert_after(BiList<T>* node, const T& value) {
   if (node == nullptr) return nullptr;
 
-  BiList<T>* new_node = new BiList<T>;
-  new_node->val = value;
+  BiList<T>* new_node = new BiList<T>;  // T::T()
+  new_node->val = value;  //  T& operator=(const T&)
   BiList<T>* next_node = node->next;
 
   new_node->next = next_node;
@@ -46,8 +46,8 @@ template< class T >
 BiList<T>* insert_before(BiList<T>* node, const T& value) {
   if (node == nullptr) return nullptr;
 
-  BiList<T>* new_node = new BiList<T>;
-  new_node->val = value;
+  BiList<T>* new_node = new BiList<T>;  // T::T()
+  new_node->val = value;  // T& operator=(const T&)
   BiList<T>* prev_node = node->prev;
 
   new_node->next = node;
@@ -63,7 +63,7 @@ BiList<T>* pop_front(BiList<T>* head) noexcept {
   if (head == nullptr) return nullptr;
 
   if (head->next == head) {
-    delete head;
+    delete head;  // ~T()
     return nullptr;
   }
 
@@ -73,7 +73,7 @@ BiList<T>* pop_front(BiList<T>* head) noexcept {
   tail->next = new_head;
   new_head->prev = tail;
 
-  delete head;
+  delete head;  // ~T()
   return new_head;
 }
 
@@ -82,7 +82,7 @@ BiList<T>* erase(BiList<T>* node) noexcept {
   if (node == nullptr) return nullptr;
 
   if (node->next == node) {
-    delete node;
+    delete node;  // ~T()
     return nullptr;
   }
 
@@ -92,7 +92,7 @@ BiList<T>* erase(BiList<T>* node) noexcept {
   prev_node->next = next_node;
   next_node->prev = prev_node;
 
-  delete node;
+  delete node;  // ~T()
   return next_node;
 }
 
@@ -105,11 +105,11 @@ BiList<T>* clear(BiList<T>* head) noexcept {
 
   while (current->next != head) {
     next = current->next;
-    delete current;
+    delete current;  // ~T()
     current = next;
   }
 
-  delete current;
+  delete current;  // ~T()
   return nullptr;
 }
 
@@ -147,9 +147,7 @@ int main() {
   size_t size = 5;
 
   BiList<int>* my_list = array_to_list(arr, size);
-
   print_list(my_list);
-
   my_list = clear(my_list);
 
   return 0;
